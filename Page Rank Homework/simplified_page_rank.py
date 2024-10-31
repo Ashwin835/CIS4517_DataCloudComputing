@@ -1,6 +1,7 @@
 #program is desgined to run for specifically 3 pages
 import numpy as np
 from fractions import Fraction
+import math
 
 def get_eigenvector(forward_links):
     eigenvector= np.zeros(shape=(3,3))
@@ -41,16 +42,21 @@ def new_ranking(page_rankings, eigenvector):
     return eigenvector @ page_rankings
 
 
-
 page_rankings= np.full(shape= (3,1), fill_value=1/3)
 
 forward_links= ['A-B','A-C', 'B-C', 'B-A','C-A']
 
 eigenvector= get_eigenvector(forward_links)
 
+old_rankings= page_rankings
 page_rankings= new_ranking(page_rankings, eigenvector)
+iterations_to_converge=1
 
-while ( 1- page_rankings[0,0] + page_rankings[1,0] + page_rankings[2,0] < .0000001):
+
+while abs(old_rankings[0,0]-page_rankings[0,0])>0.01:
+    old_rankings=page_rankings
     page_rankings= new_ranking(page_rankings, eigenvector)
+    iterations_to_converge+=1
 
 print(page_rankings)
+print(f'It converged in {iterations_to_converge} runs!')
