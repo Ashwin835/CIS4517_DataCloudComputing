@@ -1,6 +1,6 @@
 import numpy as np
 
-def get_new_page_rankings(PRA, PRB, PRC, linkings, c, damping_factor=0.8):
+def get_new_page_rankings(PRA, PRB, PRC, linkings, c, damping_factor=0.85):
     PRA= damping_factor + ((1-damping_factor)*(PRB/c['B']) * (PRC/c['C']))
 
     PRB= damping_factor + ((1-damping_factor)* (PRA/c['A']))
